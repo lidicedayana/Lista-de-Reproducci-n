@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+/* importar icons bootstrap*/
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+/*declaracion de variables*/
+:root {
+    --font-ubuntu: "Ubuntu", sans-serif;
+    --gris: rgba(32, 30, 30, 0.932);
+    --negro: #e7e7e7;
+    --light_negro: #2e2e2e;
+    --primary_color: #c4778e;
+    --secondary_color: #cfc3cf;
+    --gap: 16px;
+    --border_radius: 16px;
+    --transition: all 0.3s ease-in-out;
+    --color_backgroud_secondary: #ffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    /* font-size: 62.5%; */
+    background-color: var(--negro);
+}
+
+body {
+    max-width: 1300px;
+    padding: 24px;
+    margin: auto;
+    /* display: grid;
+    gap: 165px; */
+}
+
+.header {
+    width: 100%;
+    padding: 25px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #2e2e2e;
+
+    .header_nav {
+        max-width: 1250px;
+        display: flex;
+        justify-content: space-between;
+        margin: auto;
+        align-items: center;
+        text-align: center;
+
+
+        a {
+            color: var(--primary_color);
+            text-decoration: none;
+            font-size: 26px;
+            font-weight: bolder;
+            font-family: var(--font-ubuntu);
+        }
+
+
+    }
+
+    .right_var {
+        display: flex;
+        gap: var(--gap);
+        /* position: relative; */
+
+        input {
+            width: 300px;
+            outline: none;
+            padding: 8px 3rem 8px 2rem;
+            font-size: 14px;
+            color: var(--primary_color);
+            font-family: var(--font-ubuntu);
+            font-weight: 500;
+            border-radius: var(--border_radius);
+            border: 2px solid var(--primary_color);
+
+            &::placeholder {
+                color: var(--secondary_color);
+                font-family: var(--font-ubuntu);
+            }
+        }
+
+
+        button {
+            position: relative;
+            background-color: transparent;
+            border: none;
+            outline: none;
+
+
+            i {
+                position: absolute;
+                font-size: 23px;
+                right: 3rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--primary_color);
+                cursor: pointer;
+            }
+        }
+
+        .login {
+            color: var(--primary_color);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 400;
+            font-family: var(--font-ubuntu);
+            border: 2px solid var(--primary_color);
+            padding: 6px 12px;
+            border-radius: var(--border_radius);
+
+            i{
+                font-size: 18px;
+                font-weight: bolder;
+            }
+        }
+
+
+    }
+}
+
+.properties_container {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    justify-items: center;
+    gap: var(--gap);
+    margin-top: 125px;
+
+
+    .music_container {
+        display: grid;
+        gap: var(--gap);
+        padding: 50px 20px;
+        border-radius: 45px;
+        background-color: var(--color_backgroud_secondary);
+
+        .contenedor_portada {
+            display: flex;
+            justify-content: center;
+            position: relative;
+
+            .portada_music {
+                max-width: 90%;
+                height: fit-content;
+                border-radius: 30px;
+            }
+
+            .caracteristicas_cancion {
+                position: absolute;
+                bottom: 0;
+                background-color: var(--gris);
+                width: 90%;
+                padding: 30px 5px;
+                border-radius: 0 0 30px 30px;
+
+                .cancion {
+                    font-family: var(--font-ubuntu);
+                    font-size: 22px;
+                    font-weight: 600;
+                    color: var(--primary_color);
+                }
+
+                .autor {
+                    font-family: var(--font-ubuntu);
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: var(--secondary_color);
+                }
+
+                .genero {
+                    font-family: var(--font-ubuntu);
+                    font-weight: 300;
+                    font-size: 14px;
+                    color: var(--secondary_color);
+                }
+            }
+        }
+
+        .button_player_container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20%;
+
+            .buttosprincipal_player {
+
+                display: flex;
+                gap: 10%;
+
+
+                button {
+                    background-color: transparent;
+                    border: none;
+
+                    i {
+                        font-size: 40px;
+                        color: var(--primary_color);
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .buttonsecondary_favpl {
+                display: flex;
+                gap: 20%;
+                justify-self: end;
+
+                button {
+                    background-color: transparent;
+                    border: none;
+
+                    i {
+                        font-size: 25px;
+                        color: var(--primary_color);
+                        cursor: pointer;
+                        text-align: right;
+                    }
+                }
+            }
+        }
+
+    }
+
+    .list_music {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+
+        .total_musics,
+        .Favorites_music,
+        .Playlist {
+            display: grid;
+            gap: var(--gap);
+            height: 37vh;
+            padding: 15px 10px;
+            border-radius: 25px;
+            background-color: var(--color_backgroud_secondary);
+
+            h3,
+            span {
+                font-family: var(--font-ubuntu);
+                font-size: 24px;
+                color: var(--primary_color);
+            }
+
+            span {
+                color: var(--secondary_color);
+            }
+
+            .musics_totals_2 {
+
+                overflow-y: scroll;
+
+
+
+                .properties_musics_list {
+
+                    display: flex;
+                    justify-content: space-around;
+                    padding: 8px;
+
+
+
+                    img {
+                        max-width: 108px;
+                    }
+
+                    .left_direction {
+
+                        h2,
+                        h3 {
+                            font-family: var(--font-ubuntu);
+                            font-size: 16px;
+                            color: var(--primary_color);
+                        }
+
+                        span {
+                            font-family: var(--font-ubuntu);
+                            font-size: 14px;
+                            color: var(--secondary_color);
+                        }
+
+                    }
+
+                    .right_direction {
+
+                        display: flex;
+                        align-items: start;
+                        gap: 10px;
+
+                        button {
+                            background-color: transparent;
+                            border: none;
+
+                            i {
+                                font-size: 22px;
+                                color: var(--secondary_color);
+                                cursor: pointer;
+                            }
+
+                        }
+                    }
+
+                    &:hover {
+                        background-color: var(--light_negro);
+                        transition: var(--transition);
+                    }
+
+                }
+            }
+
+
+        }
+    }
+}
