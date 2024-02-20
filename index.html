@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <title>My music</title>
+</head>
+
+<body>
+    <header class="header">
+        <nav class="header_nav">
+
+            <a href="./"> My music
+                <!-- <img class="logo" src="cover/logo.jpeg" alt="Logo de My music"> -->
+            </a>
+            <div class="right_var">
+                <input id="search" type="text" placeholder="Search a music...">
+                <button id="buscar"><i class="bi bi-search"></i></button>
+                <a class="login" href="./login.html"><i class="bi bi-box-arrow-right"></i> Log out</a>
+            </div>
+        </nav>
+    </header>
+    <main class="properties_container">
+        <div class="music_container">
+            <div class="contenedor_portada">
+                <img id="cover" class="portada_music" src="./cover/album-cover.jpg" alt="Portada de la canción">
+                <div id="caracteristicas_cancion" class="caracteristicas_cancion">
+                    
+                </div>
+            </div>
+
+            <div class="button_player_container">
+                <div class="buttosprincipal_player">
+
+                    <button id="back"><i  class="bi bi-skip-backward-circle-fill"></i></button>
+                    <button id="play2"> <i  class="bi bi-play-circle-fill"></i></button>
+                    <button id = "pause"> <i class="bi bi-pause-circle-fill"></i></button>
+                    <button id="next"> <i class="bi bi-fast-forward-circle-fill"></i></button>
+                    <button id="mute"><i class="bi bi-volume-mute-fill"></i></button>
+                </div>
+                <div class="buttonsecondary_favpl">
+                    <button class="favorites"> <i class="bi bi-heart-fill"></i></button>
+                    <button class="addPlaylist"> <i class="bi bi-plus-circle"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="list_music">
+            <div class="total_musics" id="total_musicid">
+                <h3>Mi biblioteca <span></span></h3>
+                <div class="musics_totals_2" id="musics_total_2">
+
+
+                </div>
+            </div>
+            <div class="Playlist">
+                <h3>Mi PlayList</h3>
+                <div class="musics_totals_2" id="resPlaylist">
+
+                </div>
+            </div>
+            <div class="Favorites_music">
+                <h3>Favoritos</h3>
+                <div class="musics_totals_2" id="resFavoritos">
+
+                    
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </main>
+
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
