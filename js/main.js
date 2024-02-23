@@ -86,21 +86,21 @@ class Listas {
         let alterna2 = "";
         let alterna11 = "";
         let alterna12 = "";
-        let listaact="";
+        let listaact = "";
         switch (this.nombre) {
             case 'resFavoritos':
                 alterna = 'bi bi-heart';
                 alterna2 = 'bi bi-plus-circle';
                 alterna11 = 'EliminarPlaylist';
                 alterna12 = 'addPlayList';
-                listaact='favoritos';
+                listaact = 'favoritos';
                 break;
             case 'resPlaylist':
                 alterna = 'bi bi-heart-fill';
                 alterna2 = 'bi bi-dash-circle';
                 alterna11 = 'addPlayList';
                 alterna12 = 'EliminarPlaylist';
-                listaact='Playlist';
+                listaact = 'Playlist';
                 break;
         }
         canciones.innerHTML = '';
@@ -118,7 +118,11 @@ class Listas {
                     <button class="addPlaylist" data-idCancion="${song.id}" onclick="reproductor.${alterna12}(${song.id},'Playlist')"> <i class="${alterna2}"></i></button>
                 </div>
             </div>`;
+            reproductor.cambiarPortada();
+
         });
+
+
 
     }
 
@@ -128,15 +132,11 @@ class Listas {
         this.dibujarCanciones(); // Actualiza la visualización de las canciones
     }
 
-    shufflePlayList() {
-        this.listaCanciones = this.listaCanciones.sort(() => Math.random() - 0.5);
-    }
-
-    playPlaylist() {
-        this.listaCanciones.forEach(song => {
-            reproductor.play(song.id); // Llama al método play del reproductor para reproducir la canción
-        });
-    }
+    // playPlaylist() {
+    //     this.listaCanciones.forEach(song => {
+    //         reproductor.play(song.id); // Llama al método play del reproductor para reproducir la canción
+    //     });
+    // }
 }
 
 class Reproductor {
@@ -145,6 +145,7 @@ class Reproductor {
     catalogoCanciones;
     filtroCanciones;
     currentPlayList;
+
 
     constructor() {
         this.catalogoCanciones = [
@@ -187,6 +188,7 @@ class Reproductor {
         this.currentPlayList = 'busqueda';
         this.favoritos = new Listas('resFavoritos', []);
         this.playlist = new Listas('resPlaylist', []);
+        this.busqueda = new Listas('resBusqueda', []);
         let buscar = document.getElementById("buscar");
         let searchInput = document.getElementById("search");
         buscar.addEventListener("click", () => {
@@ -240,7 +242,9 @@ class Reproductor {
             this.siguienteCancion();
         });
 
-        
+
+
+
     }
 
     renderizarListaCanciones(lista, containerId) {
@@ -325,21 +329,60 @@ class Reproductor {
 
     }
 
+
     cambiarPortada = function () {
         const cover = document.getElementById("cover");
         cover.src = this.currentSong.cover;
         const propeties = document.getElementById("caracteristicas_cancion");
-
+        const botonesContainer = document.getElementById("buttonsecondary_favpl");
         propeties.innerHTML = `
             <h2 class="cancion">${this.currentSong.nombre}</h2>
                     <h3 class="autor">${this.currentSong.autor}</h3>
                     <span class="genero">${this.currentSong.genero}</span>`;
 
-    }
+        botonesContainer.innerHTML = '';
 
+        // Verificar si la canción actual está en la lista de favoritos
+        const isFavorite = this.favoritos.listaCanciones.some(song => song.id === this.currentSong.id);
 
+        // Verificar si la canción actual está en la lista de reproducción
+        const isInPlaylist = this.playlist.listaCanciones.some(song => song.id === this.currentSong.id);
 
-    play = function (id,lista) {
+        // Crear y agregar botones de agregar a favoritos o eliminar de favoritos según corresponda
+        const agregarFavoritoButton = document.createElement('button');
+        agregarFavoritoButton.classList.add('addFavorite');
+        agregarFavoritoButton.dataset.idCancion = this.currentSong.id;
+        agregarFavoritoButton.innerHTML = isFavorite ? '<i class="bi bi-heart"></i>' : '<i class="bi bi-heart-fill"></i>';
+        agregarFavoritoButton.onclick = () => {
+            if (isFavorite) {
+                reproductor.EliminarPlaylist(this.currentSong.id, 'favoritos');
+            } else {
+                reproductor.addPlayList(this.currentSong.id, 'favoritos');
+            }
+         
+            reproductor.cambiarPortada(); // Actualizar la portada después de agregar o eliminar de favoritos
+        };
+        botonesContainer.appendChild(agregarFavoritoButton);
+
+        // Crear y agregar botones de agregar a la lista de reproducción o eliminar de la lista de reproducción según corresponda
+        const agregarPlaylistButton = document.createElement('button');
+        agregarPlaylistButton.classList.add('addPlaylist');
+        agregarPlaylistButton.dataset.idCancion = this.currentSong.id;
+        agregarPlaylistButton.innerHTML = isInPlaylist ? '<i class="bi bi-dash-circle"></i>' : '<i class="bi bi-plus-circle"></i>';
+        agregarPlaylistButton.onclick = () => {
+            if (isInPlaylist) {
+                reproductor.EliminarPlaylist(this.currentSong.id, 'Playlist');
+            } else {
+                reproductor.addPlayList(this.currentSong.id, 'Playlist');
+            }
+            reproductor.cambiarPortada(); // Actualizar la portada después de agregar o eliminar de la lista de reproducción
+        };
+        botonesContainer.appendChild(agregarPlaylistButton);
+    };
+
+  
+
+    play = function (id, lista) {
         // Busca la canción correspondiente al ID
         this.currentSong = this.catalogoCanciones.find(song => song.id === id);
         if (this.currentSong !== undefined) {
@@ -348,7 +391,7 @@ class Reproductor {
             this.audio.play();
             // Actualiza la portada y la información de la canción
             this.cambiarPortada();
-            
+
             this.currentPlayList = lista;
 
         }
@@ -384,7 +427,7 @@ class Reproductor {
         }
     }
 
-    siguienteCancion = function() {
+    siguienteCancion = function () {
         let currentList = [];
         switch (this.currentPlayList) {
             case 'favoritos':
@@ -397,29 +440,29 @@ class Reproductor {
                 currentList = this.catalogoCanciones;
                 break;
         }
-    
+
         if (currentList.length === 0) return; // Verificar si la lista está vacía
-    
+
         // Obtener el índice de la canción actual
         let currentIndex = 0;
         if (this.currentSong) {
             currentIndex = currentList.findIndex(song => song.id === this.currentSong.id);
         }
-    
+
         // Calcular el índice de la siguiente canción
         let nextIndex = currentIndex + 1;
         if (nextIndex >= currentList.length) {
             nextIndex = 0; // Volver al principio de la lista si se alcanza el final
         }
-    
+
         // Establecer la próxima canción como la canción actual
         this.currentSong = currentList[nextIndex];
         this.audio.src = this.currentSong.urlsong;
         this.audio.play();
         this.cambiarPortada();
     }
-    
-    
+
+
     cancionAnterior = function () {
         let currentList = [];
         switch (this.currentPlayList) {
@@ -433,28 +476,28 @@ class Reproductor {
                 currentList = this.catalogoCanciones;
                 break;
         }
-    
+
         if (currentList.length === 0) return; // Verificar si la lista está vacía
-    
+
         // Obtener el índice de la canción actual
         let currentIndex = 0;
         if (this.currentSong) {
             currentIndex = currentList.findIndex(song => song.id === this.currentSong.id);
         }
-    
+
         // Calcular el índice de la canción anterior
         let previousIndex = currentIndex - 1;
         if (previousIndex < 0) {
             previousIndex = currentList.length - 1; // Ir al final de la lista si se alcanza el principio
         }
-    
+
         // Establecer la canción anterior como la canción actual
         this.currentSong = currentList[previousIndex];
         this.audio.src = this.currentSong.urlsong;
         this.audio.play();
         this.cambiarPortada();
     }
-    
+
 
 }
 
